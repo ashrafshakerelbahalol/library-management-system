@@ -23,7 +23,8 @@ import java.time.LocalDateTime;
 public class BorrowingTransaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long transactionId;
+    @Column(name = "transaction_id")
+    private Long id;
     @ManyToOne
     @JoinColumn(name = "member_id")
     private Member member;
