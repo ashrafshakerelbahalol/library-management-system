@@ -75,7 +75,7 @@ Configure application.properties
  
 4. **Run the project**
    ## 🗄️ username password table
-   | Username | password | password |
+   | Username | password | role |
    |-----------|---------|---------|
     | `libAdmin` | libAdmin |  ADMIN|
     | `libStaff` | libStaff | STAFF |
