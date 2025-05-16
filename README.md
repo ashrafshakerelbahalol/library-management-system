@@ -61,10 +61,12 @@
    CREATE DATABASE library_system;
 Configure application.properties
 
-2. **properties**
-spring.datasource.url=jdbc:mysql://localhost:3306/library_system
-spring.datasource.username=your_username
-spring.datasource.password=your_password
- -change it with proper username and password
-3. **Run the project**
+2. **Properties**
+    ```bash
+   spring.datasource.url=jdbc:mysql://localhost:3306/library_system
+   spring.datasource.username=your_username
+   spring.datasource.password=your_password
+ - Change it with a proper username and password
+ 
+4. **Run the project**
    
