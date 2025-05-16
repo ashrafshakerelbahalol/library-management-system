@@ -51,6 +51,10 @@ public class BookService {
         if (isReturned) {
             book.setQuantity(book.getQuantity() + 1);
         } else {
+            if (book.getQuantity() == 0) {
+                logger.error("Book quantity is zero");
+                throw new ResourceNotFoundException("Book quantity is zero");
+            }
             book.setQuantity(book.getQuantity() - 1);
         }
         bookRepository.save(book);
@@ -125,7 +129,7 @@ public class BookService {
             logger.warn("getAllBooks returned empty list");
             throw new ResourceNotFoundException("There is no books in this page");
         } else
-            logger.warn("list of books is returned with page {} and size {} by {} ", page, size, SecurityUtils.getCurrentUsername());
+            logger.info("list of books is returned with page {} and size {} by {} ", page, size, SecurityUtils.getCurrentUsername());
         return bookDTOs;
 
     }

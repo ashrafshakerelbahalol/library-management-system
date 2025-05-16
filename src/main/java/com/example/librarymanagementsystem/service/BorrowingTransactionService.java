@@ -51,6 +51,7 @@ public class BorrowingTransactionService {
         Book book = bookService.findById(addRequest.getBookId());
         bookService.changeQuantity(book, false);
         Member member = memberService.findById(addRequest.getMemberId());
+        memberService.updateMaxBorrowLimit(member, false);
         borrowingTransaction.setBook(book);
         borrowingTransaction.setMember(member);
         borrowingTransaction.setCheckoutDate(LocalDateTime.now());
@@ -77,6 +78,8 @@ public class BorrowingTransactionService {
         borrowingTransaction.setReturnDate(LocalDateTime.now());
         Book book = bookService.findById(returnBookTransactionRequest.getBookId());
         bookService.changeQuantity(book, true);
+        Member member = memberService.findById(returnBookTransactionRequest.getMemberId());
+        memberService.updateMaxBorrowLimit(member, true);
         if (borrowingTransaction.getDueDate().isBefore(borrowingTransaction.getReturnDate())) {
             Long daysDifference = ChronoUnit.DAYS.between(borrowingTransaction.getDueDate(),
                     borrowingTransaction.getReturnDate());

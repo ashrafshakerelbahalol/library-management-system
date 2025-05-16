@@ -2,6 +2,7 @@ package com.example.librarymanagementsystem.service;
 
 import com.example.librarymanagementsystem.config.security.SecurityUtils;
 import com.example.librarymanagementsystem.entity.Member;
+import com.example.librarymanagementsystem.error.InvalidUserInputException;
 import com.example.librarymanagementsystem.error.ResourceAlreadyExistException;
 import com.example.librarymanagementsystem.error.ResourceNotFoundException;
 import com.example.librarymanagementsystem.mapStruct.dto.member.AddingMemberRequest;
@@ -81,5 +82,20 @@ public class MemberService {
 
     public Member findById(Long memberId) {
         return memberRepository.findById(memberId).orElseThrow(() -> new ResourceNotFoundException("Member with id " + memberId + " not found"));
+    }
+
+    public void updateMaxBorrowLimit(Member member, boolean isBorrowed) {
+        member = memberRepository.findById(member.getId()).get();
+        if (isBorrowed) {
+            member.setMaxBorrowLimit(member.getMaxBorrowLimit() - 1);
+        } else {
+            if (member.getMaxBorrowLimit() == 0) {
+                logger.error("The member with id :{}  has override the max borrow limit", member.getId());
+                throw new InvalidUserInputException("Member has override the max borrow limit");
+            }
+            member.setMaxBorrowLimit(member.getMaxBorrowLimit() + 1);
+            memberRepository.save(member);
+        }
+
     }
 }
