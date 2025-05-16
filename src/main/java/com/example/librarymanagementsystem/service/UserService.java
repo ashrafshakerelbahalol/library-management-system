@@ -17,6 +17,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -54,6 +55,8 @@ public class UserService {
             logger.error("User with Email {} already exists", user.getEmail());
             throw new ResourceAlreadyExistException("User with email " + user.getEmail() + " already exists");
         }
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(12);
+        user.setPassword(passwordEncoder.encode(addRequest.getPassword()));
         userRepository.save(user);
         logger.info("User created by user : {}", SecurityUtils.getCurrentUsername());
         return userMapper.toDTO(user);

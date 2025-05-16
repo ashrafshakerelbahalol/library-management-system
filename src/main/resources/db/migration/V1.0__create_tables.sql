@@ -98,7 +98,7 @@ CREATE TABLE users
 (
     user_id   INT AUTO_INCREMENT NOT NULL,
     username  VARCHAR(30) NULL,
-    password  VARCHAR(50) NULL,
+    password VARCHAR(100) NULL,
     full_name VARCHAR(100) NULL,
     email     VARCHAR(30) NULL,
     phone     VARCHAR(15) NULL,
