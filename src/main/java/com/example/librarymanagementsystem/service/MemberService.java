@@ -1,5 +1,6 @@
 package com.example.librarymanagementsystem.service;
 
+import com.example.librarymanagementsystem.config.security.SecurityUtils;
 import com.example.librarymanagementsystem.entity.Member;
 import com.example.librarymanagementsystem.error.ResourceAlreadyExistException;
 import com.example.librarymanagementsystem.error.ResourceNotFoundException;
@@ -28,13 +29,14 @@ public class MemberService {
 
     public List<MemberDto> getAllMembers(int page, int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.ASC, "id"));
-        Page<Member> users = memberRepository.findAll(pageable);
-        List<MemberDto> memberDtos = users.stream().map(memberMapper::toDTO).toList();
+        Page<Member> Members = memberRepository.findAll(pageable);
+        List<MemberDto> memberDtos = Members.stream().map(memberMapper::toDTO).toList();
         if (memberDtos.isEmpty()) {
             logger.warn("getAllUsers returned empty list");
             throw new ResourceNotFoundException("There is no users in this page");
         } else
-            logger.warn("getAllUsers returned list of users");
+            logger.info("List of members with page : {} size : {} returned for user: {}", page, size, SecurityUtils.getCurrentUsername());
+
         return memberDtos;
 
     }
@@ -78,6 +80,6 @@ public class MemberService {
     }
 
     public Member findById(Long memberId) {
-        return memberRepository.findById(memberId).orElseThrow();
+        return memberRepository.findById(memberId).orElseThrow(() -> new ResourceNotFoundException("Member with id " + memberId + " not found"));
     }
 }

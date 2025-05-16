@@ -1,6 +1,7 @@
 package com.example.librarymanagementsystem.service;
 
 
+import com.example.librarymanagementsystem.config.security.SecurityUtils;
 import com.example.librarymanagementsystem.entity.User;
 import com.example.librarymanagementsystem.error.ResourceAlreadyExistException;
 import com.example.librarymanagementsystem.error.ResourceNotFoundException;
@@ -33,10 +34,10 @@ public class UserService {
         Page<User> users = userRepository.findAll(pageable);
         List<UserDto> userDTOs = users.stream().map(userMapper::toDTO).toList();
         if (userDTOs.isEmpty()) {
-            logger.warn("getAllUsers returned empty list");
+            logger.warn("getAllUsers returned empty list of users for user: {} ", SecurityUtils.getCurrentUsername());
             throw new ResourceNotFoundException("There is no users in this page");
         } else
-            logger.info("getAllUsers returned list of users");
+            logger.info("List of users returned with page : {} and size : {} for user : {} ", page, size, SecurityUtils.getCurrentUsername());
         return userDTOs;
 
     }
@@ -54,7 +55,7 @@ public class UserService {
             throw new ResourceAlreadyExistException("User with email " + user.getEmail() + " already exists");
         }
         userRepository.save(user);
-        logger.info("User created");
+        logger.info("User created by user : {}", SecurityUtils.getCurrentUsername());
         return userMapper.toDTO(user);
 
     }
@@ -62,7 +63,7 @@ public class UserService {
     public UserDto updateUser(UpdatingUserRequest updateRequest) {
         Optional<User> user = userRepository.findById(updateRequest.getId());
         if (user.isEmpty()) {
-            logger.error("User with id {} does not exist for updating", updateRequest.getId());
+            logger.error("User with id {} does not exist for updating by user:{}", updateRequest.getId(), SecurityUtils.getCurrentUsername());
             throw new ResourceNotFoundException("User with id " + updateRequest.getId() + " does not exist");
         }
         User ExistingUser = user.get();
@@ -74,18 +75,18 @@ public class UserService {
         ExistingUser.setPhone(updateRequest.getPhone());
         ExistingUser.setAddress(updateRequest.getAddress());
         userRepository.save(ExistingUser);
-        logger.info("User updated");
+        logger.info("User with id :{} updated by user : {}", ExistingUser.getId(), SecurityUtils.getCurrentUsername());
         return userMapper.toDTO(ExistingUser);
     }
 
     public void deleteUser(Integer id) {
         Optional<User> user = userRepository.findById(id);
         if (user.isEmpty()) {
-            logger.error("User with id {} does not exist for deleting", id);
+            logger.error("User with id {} does not exist for deleting by user : {}", id, SecurityUtils.getCurrentUsername());
             throw new ResourceNotFoundException("User with id " + id + " does not exist");
         }
         userRepository.deleteById(id);
-        logger.info("User deleted");
+        logger.info("User with id : {} deleted by user : {}", id, SecurityUtils.getCurrentUsername());
 
     }
 }

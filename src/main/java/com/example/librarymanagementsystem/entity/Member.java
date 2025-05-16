@@ -35,10 +35,10 @@ public class Member {
     @Column(length = 15)
     private String phone;
     @CreatedBy
-    @Column(name="created_by",updatable = false,length = 50)
+    @Column(name = "created_by", length = 50)
     private String createdBy;
     @CreatedDate
-    @Column(name="creation_date",updatable = false)
+    @Column(name = "creation_date")
     private LocalDateTime creationDate;
     @LastModifiedBy
     @Column(name="modified_by",length = 50)

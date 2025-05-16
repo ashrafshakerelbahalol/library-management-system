@@ -1,5 +1,6 @@
 package com.example.librarymanagementsystem.service;
 
+import com.example.librarymanagementsystem.config.security.SecurityUtils;
 import com.example.librarymanagementsystem.entity.Author;
 import com.example.librarymanagementsystem.entity.Book;
 import com.example.librarymanagementsystem.entity.Category;
@@ -41,7 +42,7 @@ public class BookService {
         BookDto bookDto = bookMapper.toDto(addRequest);
         resolveRelations(book, bookDto);
         Book savedBook = bookRepository.save(book);
-        logger.info("Book created successfully");
+        logger.info("Book created successfully by user:{}", SecurityUtils.getCurrentUsername());
         return bookMapper.toDto(savedBook);
     }
 
@@ -58,12 +59,12 @@ public class BookService {
     public BookDto updateBook(BookDto bookDto) {
         Optional<Book> book = bookRepository.findById(bookDto.getId());
         if (book.isEmpty()) {
-            logger.info("Book not found");
+            logger.error("Book not found");
             throw new ResourceNotFoundException("Book not found");
         }
         Book existingBook = getBook(bookDto, book);
         resolveRelations(existingBook, bookDto);
-        logger.info("Book updated successfully");
+        logger.info("Book with id : {}  updated successfully by user: {}", bookDto.getId(), SecurityUtils.getCurrentUsername());
         Book updatedBook = bookRepository.save(existingBook);
         return bookMapper.toDto(updatedBook);
     }
@@ -107,6 +108,12 @@ public class BookService {
     }
 
     public void deleteBook(Long id) {
+        Optional<Book> book = bookRepository.findById(id);
+        if (book.isEmpty()) {
+            logger.error("Book not found");
+            throw new ResourceNotFoundException("Book not found");
+        }
+        logger.info("Book deleted with id : {} successfully by {}", id, SecurityUtils.getCurrentUsername());
         bookRepository.deleteById(id);
     }
 
@@ -115,10 +122,10 @@ public class BookService {
         Page<Book> books = bookRepository.findAll(pageable);
         List<BookDto> bookDTOs = books.stream().map(bookMapper::toDto).toList();
         if (bookDTOs.isEmpty()) {
-            logger.warn("getAllUsers returned empty list");
+            logger.warn("getAllBooks returned empty list");
             throw new ResourceNotFoundException("There is no books in this page");
         } else
-            logger.warn("getAllUsers returned list of books");
+            logger.warn("list of books is returned with page {} and size {} by {} ", page, size, SecurityUtils.getCurrentUsername());
         return bookDTOs;
 
     }

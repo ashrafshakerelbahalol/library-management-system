@@ -24,7 +24,7 @@ public class MemberController {
             @RequestParam(required = false, defaultValue = "0") int page
             , @RequestParam(required = false, defaultValue = "10") int size) {
         List<MemberDto> memberDtos = memberService.getAllMembers(page, size);
-        return ResponseEntity.ok(new ApiResponse("Member list retrieved successfully with page : " + page + "and size : " + size, memberDtos));
+        return ResponseEntity.ok(new ApiResponse("Member list retrieved successfully with page : " + page + " and size : " + size, memberDtos));
     }
 
     @PostMapping

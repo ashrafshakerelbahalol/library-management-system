@@ -1,5 +1,6 @@
 package com.example.librarymanagementsystem.service;
 
+import com.example.librarymanagementsystem.config.security.SecurityUtils;
 import com.example.librarymanagementsystem.entity.Book;
 import com.example.librarymanagementsystem.entity.BorrowingTransaction;
 import com.example.librarymanagementsystem.entity.Member;
@@ -41,7 +42,7 @@ public class BorrowingTransactionService {
     public List<BorrowingTransactionDto> getBorrowingTransactions(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         List<BorrowingTransaction> borrowingTransactionList = borrowingTransactionRepository.findAll(pageable).getContent();
-        logger.warn("getBorrowingTransactions returned list of borrowingTransaction");
+        logger.warn("borrowing transactions list is retrieved by user {} with page {} and size {}", SecurityUtils.getCurrentUsername(), page, size);
         return borrowingTransactionList.stream().map(borrowingTransactionMapper::toDto).toList();
     }
 
@@ -55,6 +56,7 @@ public class BorrowingTransactionService {
         borrowingTransaction.setCheckoutDate(LocalDateTime.now());
         borrowingTransaction.setDueDate(LocalDateTime.now().plusDays(gracePeriod));
         borrowingTransactionRepository.save(borrowingTransaction);
+        logger.info("Borrowing transaction created for book: {} and member: {} by user: {}", book.getId(), member.getId(), SecurityUtils.getCurrentUsername());
         return borrowingTransactionMapper.toDto(borrowingTransaction);
 
     }
@@ -86,7 +88,8 @@ public class BorrowingTransactionService {
 
         }
         borrowingTransactionRepository.save(borrowingTransaction);
-        logger.info("Book returned successfully");
+        logger.info("Book returned successfully with id : {}  from member : {} by user :{}", borrowingTransaction.getBook().getId()
+                , borrowingTransaction.getMember().getId(), SecurityUtils.getCurrentUsername());
         return borrowingTransactionMapper.toDto(borrowingTransaction);
 
 
@@ -98,6 +101,7 @@ public class BorrowingTransactionService {
             logger.warn("Transaction not found");
             throw new ResourceNotFoundException("Transaction not found");
         }
+        logger.info("Transaction with id : {} is deleted Successfully by user: {}", id, SecurityUtils.getCurrentUsername());
         borrowingTransactionRepository.delete(borrowingTransaction.get());
 
     }
