@@ -36,7 +36,7 @@ public class UserService {
             logger.warn("getAllUsers returned empty list");
             throw new ResourceNotFoundException("There is no users in this page");
         } else
-            logger.warn("getAllUsers returned list of users");
+            logger.info("getAllUsers returned list of users");
         return userDTOs;
 
     }

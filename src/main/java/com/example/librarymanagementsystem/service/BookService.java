@@ -45,6 +45,16 @@ public class BookService {
         return bookMapper.toDto(savedBook);
     }
 
+    public void changeQuantity(Book book, Boolean isReturned) {
+        book = bookRepository.findById(book.getId()).get();
+        if (isReturned) {
+            book.setQuantity(book.getQuantity() + 1);
+        } else {
+            book.setQuantity(book.getQuantity() - 1);
+        }
+        bookRepository.save(book);
+    }
+
     public BookDto updateBook(BookDto bookDto) {
         Optional<Book> book = bookRepository.findById(bookDto.getId());
         if (book.isEmpty()) {
@@ -111,5 +121,9 @@ public class BookService {
             logger.warn("getAllUsers returned list of books");
         return bookDTOs;
 
+    }
+
+    public Book findById(Long bookId) {
+        return bookRepository.findById(bookId).orElseThrow(() -> new ResourceNotFoundException("Book not found"));
     }
 }

@@ -5,6 +5,7 @@ CREATE TABLE authors
     nationality VARCHAR(100) NULL,
     bio         VARCHAR(500) NULL,
     CONSTRAINT pk_authors PRIMARY KEY (author_id)
+
 );
 
 CREATE TABLE book_authors
@@ -42,7 +43,7 @@ CREATE TABLE books
 
 CREATE TABLE borrowing_transactions
 (
-    transaction_id BIGINT NOT NULL,
+    transaction_id BIGINT AUTO_INCREMENT NOT NULL,
     member_id      BIGINT NULL,
     book_id        BIGINT NULL,
     created_by     VARCHAR(30) NULL,
@@ -51,7 +52,7 @@ CREATE TABLE borrowing_transactions
     modified_date  datetime NULL,
     return_date    datetime NULL,
     due_date       datetime NULL,
-    fine_amount    int Null,
+    fine_amount    BIGINT Null,
     CONSTRAINT pk_borrowing_transactions PRIMARY KEY (transaction_id)
 );
 
@@ -126,28 +127,29 @@ ALTER TABLE users
     ADD CONSTRAINT uc_users_username UNIQUE (username);
 
 ALTER TABLE books
-    ADD CONSTRAINT FK_BOOKS_ON_PUBLISHER FOREIGN KEY (publisher_id) REFERENCES publishers (publisher_id);
+    ADD CONSTRAINT FK_BOOKS_ON_PUBLISHER FOREIGN KEY (publisher_id) REFERENCES publishers (publisher_id) ON DELETE CASCADE
+;
 
 ALTER TABLE borrowing_transactions
-    ADD CONSTRAINT FK_BORROWING_TRANSACTIONS_ON_BOOK FOREIGN KEY (book_id) REFERENCES books (book_id);
+    ADD CONSTRAINT FK_BORROWING_TRANSACTIONS_ON_BOOK FOREIGN KEY (book_id) REFERENCES books (book_id) ON DELETE CASCADE;
 
 ALTER TABLE borrowing_transactions
-    ADD CONSTRAINT FK_BORROWING_TRANSACTIONS_ON_MEMBER FOREIGN KEY (member_id) REFERENCES members (member_id);
+    ADD CONSTRAINT FK_BORROWING_TRANSACTIONS_ON_MEMBER FOREIGN KEY (member_id) REFERENCES members (member_id) ON DELETE CASCADE;
 
 ALTER TABLE book_authors
-    ADD CONSTRAINT fk_booaut_on_author FOREIGN KEY (author_id) REFERENCES authors (author_id);
+    ADD CONSTRAINT fk_booaut_on_author FOREIGN KEY (author_id) REFERENCES authors (author_id) ON DELETE CASCADE;
 
 ALTER TABLE book_authors
-    ADD CONSTRAINT fk_booaut_on_book FOREIGN KEY (book_id) REFERENCES books (book_id);
+    ADD CONSTRAINT fk_booaut_on_book FOREIGN KEY (book_id) REFERENCES books (book_id) ON DELETE CASCADE;
 
 ALTER TABLE book_categories
-    ADD CONSTRAINT fk_boocat_on_book FOREIGN KEY (book_id) REFERENCES books (book_id);
+    ADD CONSTRAINT fk_boocat_on_book FOREIGN KEY (book_id) REFERENCES books (book_id) ON DELETE CASCADE;
 
 ALTER TABLE book_categories
-    ADD CONSTRAINT fk_boocat_on_category FOREIGN KEY (category_id) REFERENCES categories (category_id);
+    ADD CONSTRAINT fk_boocat_on_category FOREIGN KEY (category_id) REFERENCES categories (category_id) ON DELETE CASCADE;
 
 ALTER TABLE category_hierarchy
-    ADD CONSTRAINT fk_cathie_on_category FOREIGN KEY (category_id) REFERENCES categories (category_id);
+    ADD CONSTRAINT fk_cathie_on_category FOREIGN KEY (category_id) REFERENCES categories (category_id) ON DELETE CASCADE;
 
 ALTER TABLE category_hierarchy
-    ADD CONSTRAINT fk_cathie_on_category_parent FOREIGN KEY (category_parent_id) REFERENCES categories (category_id);
+    ADD CONSTRAINT fk_cathie_on_category_parent FOREIGN KEY (category_parent_id) REFERENCES categories (category_id) ON DELETE CASCADE;

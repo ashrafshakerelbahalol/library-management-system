@@ -32,10 +32,10 @@ public class BorrowingTransaction {
     @JoinColumn(name="book_id")
     private Book book;
     @CreatedBy
-    @Column(name="created_by",length = 30,updatable = false)
+    @Column(name = "created_by", length = 30)
     private String createdBy;
     @CreatedDate
-    @Column(name="checkout_date",updatable = false)
+    @Column(name = "checkout_date")
     private LocalDateTime checkoutDate;
     @LastModifiedBy
     @Column(name="modified_by",length = 30)
@@ -48,7 +48,7 @@ public class BorrowingTransaction {
     @Column(name="due_date")
     private LocalDateTime dueDate;
     @Column(name="fine_amount")
-    private Integer FineAmount;
+    private Long FineAmount;
 
 
 }

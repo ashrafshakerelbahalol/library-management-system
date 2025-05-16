@@ -80,9 +80,12 @@ INSERT INTO members (full_name, email, max_borrow_limit) VALUES
                                                              ('Michael Brown', 'm.brown@email.com', 5);
 
 -- Insert Users (library staff)
-INSERT INTO users (username, password, full_name, email, role,is_valid) VALUES
-                                                                   ('libadmin', 'secure123', 'Sarah Johnson', 's.johnson@library.com', 'Admin',true),
-                                                                   ('maryp', 'librarypass', 'Mary Peterson', 'mary.p@library.com', 'Librarian',true);
+INSERT INTO users (username, password, full_name, email, role,is_valid) VALUES ('libadmin', 'secure123',
+                                                                                'Sarah Johnson',
+                                                                                's.johnson@library.com', 'ADMIN', true),
+                                                                               ('maryp', 'librarypass', 'Mary Peterson',
+                                                                                'mary.p@library.com', 'LIBRARIAN',
+                                                                                true);
 
 -- Insert Borrowing Transactions
 INSERT INTO borrowing_transactions VALUES

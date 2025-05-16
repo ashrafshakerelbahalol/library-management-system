@@ -76,4 +76,8 @@ public class MemberService {
         memberRepository.deleteById(id);
         logger.info("Member deleted {}", id);
     }
+
+    public Member findById(Long memberId) {
+        return memberRepository.findById(memberId).orElseThrow();
+    }
 }

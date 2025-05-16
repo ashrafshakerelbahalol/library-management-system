@@ -3,6 +3,7 @@ package com.example.librarymanagementsystem.mapStruct.mapper;
 import com.example.librarymanagementsystem.entity.Book;
 import com.example.librarymanagementsystem.mapStruct.dto.book.AddingBookRequest;
 import com.example.librarymanagementsystem.mapStruct.dto.book.BookDto;
+import com.example.librarymanagementsystem.mapStruct.dto.book.BookDtoForTransaction;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring", uses = {BookMapper.class, AuthorMapper.class, CategoryMapper.class, PublisherMapper.class})
@@ -14,4 +15,7 @@ public interface BookMapper {
     Book toEntity(AddingBookRequest addRequest);
 
     BookDto toDto(AddingBookRequest addRequest);
+
+    BookDtoForTransaction toDtoForTransaction(Book book);
+
 }
