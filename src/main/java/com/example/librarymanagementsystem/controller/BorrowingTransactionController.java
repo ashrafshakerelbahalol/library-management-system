@@ -43,7 +43,7 @@ public class BorrowingTransactionController {
     @PreAuthorize("hasRole('LIBRARIAN')")
     public ResponseEntity<ApiResponse> deleteBorrowingTransaction(@RequestParam Long id) {
         borrowingTransactionService.deleteBorrowingTransaction(id);
-        return ResponseEntity.ok(new ApiResponse("borrowing transaction deleted Successfully", id));
+        return ResponseEntity.ok(new ApiResponse("Borrowing transaction deleted Successfully", id));
     }
 
 }
