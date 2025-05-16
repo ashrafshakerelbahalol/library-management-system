@@ -34,6 +34,11 @@
 | Table | Description |
 |-------|-------------|
 | `authors` | Author details (name, bio, nationality) |
+| `book_authors` | Authors' book details  |
+| `book_categories` | categories' book details  |
+| `categories` | Category details with name |
+| `category_hierarchy` | Categor's parents relationships |
+| `publishers` | publisher details  |
 | `books` | Book metadata + publisher relationship |
 | `borrowing_transactions` | Checkout/return records with fines |
 | `members` | Member profiles & borrow limits |
@@ -69,4 +74,11 @@ Configure application.properties
  - Change it with a proper username and password
  
 4. **Run the project**
+   ## 🗄️ username password table
+   | Username | password | password |
+   |-----------|---------|---------|
+    | `libAdmin` | libAdmin |  ADMIN|
+    | `libStaff` | libStaff | STAFF |
+    | `libLibrerian` | libLibrerian |LIBRARIAN|
+   
    
