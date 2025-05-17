@@ -92,7 +92,6 @@ public class MemberService {
                 throw new InvalidUserInputException("Member has override the max borrow limit");
             }
             member.setMaxBorrowLimit(member.getMaxBorrowLimit() - 1);
-
         } else {
 
             member.setMaxBorrowLimit(member.getMaxBorrowLimit() + 1);
