@@ -87,11 +87,12 @@ public class MemberService {
     public void updateMaxBorrowLimit(Member member, boolean isBorrowed) {
         member = memberRepository.findById(member.getId()).get();
         if (isBorrowed) {
-            member.setMaxBorrowLimit(member.getMaxBorrowLimit() - 1);
             if (member.getMaxBorrowLimit() == 0) {
                 logger.error("The member with id :{}  has override the max borrow limit", member.getId());
                 throw new InvalidUserInputException("Member has override the max borrow limit");
             }
+            member.setMaxBorrowLimit(member.getMaxBorrowLimit() - 1);
+
         } else {
 
             member.setMaxBorrowLimit(member.getMaxBorrowLimit() + 1);
